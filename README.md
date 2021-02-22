@@ -4,10 +4,10 @@ Projeto de Backend que gerencia imagens. Desenvolvido em Typescript com Express 
 ### O que há no projeto:
 
 * Autenticação
-  -cadastro e login
+  - cadastro e login
   
 * Criação de imagem
-  -As imagens ou músicas devem ser guardadas em um banco de dados.
+  - As imagens ou músicas devem ser guardadas em um banco de dados.
   
 * Leitura de  imagem
   - Uma lista completa, com tudo que foi criado até aqui;
