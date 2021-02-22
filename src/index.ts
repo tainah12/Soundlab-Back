@@ -2,11 +2,14 @@ import express, {Express} from 'express'
 import cors from 'cors'
 // ------ Server ------------------
 import { AddressInfo } from "net";
+import { userRouter } from './controller/router/userRouter';
 
 const app: Express = express();
 
 app.use(express.json());
 app.use(cors());
+
+app.use("/user", userRouter)
 
 const server = app.listen(process.env.PORT || 3003, () => {
     if (server) {
