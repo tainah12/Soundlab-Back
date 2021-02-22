@@ -1,0 +1,25 @@
+{
+  "name": "InstaLabBack",
+  "version": "1.0.0",
+  "description": "Projeto de Backend que gerencia imagens. Desenvolvido em Typescript com Express e Knex inspirado no Instagram.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "createTable": "tsc && node ./build/src/migrations/MySqlSetup.js",
+    "dev": " ts-node-dev ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tainah12/InstaLab-Back.git"
+  },
+  "keywords": [],
+  "author": "Tainah Bernardo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tainah12/InstaLab-Back/issues"
+  },
+  "homepage": "https://github.com/tainah12/InstaLab-Back#readme"
+}
