@@ -16,25 +16,31 @@ export class MySqlSetup extends BaseDataBase {
 
             await BaseDataBase.connection.raw(`
             CREATE TABLE IF NOT EXISTS soundlab_genres (
-                genres_id VARCHAR(255) PRIMARY KEY,
-                genre VARCHAR(255) NOT NULL
+                id VARCHAR(255) PRIMARY KEY,
+                genres ENUM ("")
               );
             `)
 
             await BaseDataBase.connection.raw(`
             CREATE TABLE IF NOT EXISTS soundlab_musics (
                 id VARCHAR(255) PRIMARY KEY,
-                title VARCHAR(255) NOT NULL, 
-                author VARCHAR(255) NOT NULL, 
+                title VARCHAR(60) NOT NULL,
+                author VARCHAR(255) NOT NULL,
                 date DATE DEFAULT (CURDATE()),
                 file VARCHAR(255) NOT NULL,
-                genre VARCHAR(255) NOT NULL,
-                album VARCHAR(255) NOT NULL
+                album VARCHAR(60) NOT NULL,
+                FOREIGN KEY(author) REFERENCES lamusic_users(id)
               );
             `)
-
-
-
+            await BaseDataBase.connection.raw(`
+            CREATE TABLE IF NOT EXISTS lamusic_genre_music (
+                id VARCHAR(255) PRIMARY KEY,
+                genre VARCHAR(255) NOT NULL,
+                music VARCHAR(255) NOT NULL UNIQUE,
+                FOREIGN KEY(genre) REFERENCES lamusic_genres(id),
+                FOREIGN KEY(music) REFERENCES lamusic_music(id)
+            );
+            `)
             console.log("MySql setup completed!")
 
 
