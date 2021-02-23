@@ -35,4 +35,21 @@ export class UserDataBase extends BaseDataBase {
 
     }
 
+    public async getUserByEmail(email: string): Promise<User> {
+
+        try {
+
+            const result = await BaseDataBase.connection
+                .select("*")
+                .from(BaseDataBase.USER_TABLE)
+                .where({ email })
+
+            return UserDataBase.toUserModel(result[0])
+
+        }catch (error) {
+            throw new CustomError(500, "An unexpected error ocurred with Email");
+        }
+
+    }
+
 }
