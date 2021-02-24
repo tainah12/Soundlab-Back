@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { MusicDataBase } from "../data/MusicDataBase";
 import { IdGenerator } from "../services/IdGenerator";
 import { Authenticator } from "../services/TokenGenerator";
@@ -37,8 +36,7 @@ export class MusicBusiness {
 
         const id = this.idGenerator.generate()
 
-        const date = dayjs()
-        // const date = ((newDate.getFullYear() )) + "-" + ((newDate.getMonth() + 1)) + "-" + newDate.getDate();
+        const date = new Date()
 
         await this.musicDataBase.createMusic(
             new Music(

@@ -23,7 +23,7 @@ export class MusicDataBase extends BaseDataBase {
                     id: music.id,
                     title: music.title,
                     author: music.author,
-                    date: music.date,
+                    date: music.date.toISOString().slice(0,10),
                     file: music.file,
                     album: music.album
                 })
