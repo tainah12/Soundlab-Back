@@ -1,20 +1,21 @@
+import dayjs from "dayjs";
 import { MusicDataBase } from "../data/MusicDataBase";
 import { IdGenerator } from "../services/IdGenerator";
 import { Authenticator } from "../services/TokenGenerator";
-import { MusicInputDTO } from "./entities/Music";
+import { Music, MusicInputDTO } from "./entities/Music";
 import { CustomError } from "./error/CustomError";
 
 export class MusicBusiness {
 
     constructor(
         
-        private tokenGenerator: Authenticator,
+        private generateToken: Authenticator,
+        private idGenerator: IdGenerator,
         private musicDataBase: MusicDataBase,
-        private idGenerator: IdGenerator
 
     ){}
 
-    public async createMusic(inputMusic: MusicInputDTO) {
+    public async createMusic(inputMusic: MusicInputDTO, token: string) {
 
         try {
 
@@ -28,7 +29,27 @@ export class MusicBusiness {
                 throw new CustomError (422, "Please, verify the title, author, file and album fields. They must be complete")
             }
 
-              
+        const verifyToken = this.generateToken.getData(token)
+        
+        if(!verifyToken) {
+            throw new CustomError (401, "Unauthorized. Verify token")
+        }
+
+        const id = this.idGenerator.generate()
+
+        const date = dayjs()
+        // const date = ((newDate.getFullYear() )) + "-" + ((newDate.getMonth() + 1)) + "-" + newDate.getDate();
+
+        await this.musicDataBase.createMusic(
+            new Music(
+                id,
+                title,
+                author,
+                date,
+                file,
+                album
+            )
+        )              
 
         } catch(error) {
             throw new CustomError(error.statusCode || 400, error.message)
