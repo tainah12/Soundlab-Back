@@ -1,4 +1,5 @@
 export interface MusicInputDTO {
+    id: string,
     title: string;
     author: string;
     file: string;
