@@ -48,7 +48,7 @@ export class UserDataBase extends BaseDataBase {
             return UserDataBase.toUserModel(result[0])
 
         }catch (error) {
-            throw new CustomError(500, "An unexpected error ocurred with Email");
+            throw new CustomError(500, "An unexpected error ocurred with Email or nickname");
         }
 
     }

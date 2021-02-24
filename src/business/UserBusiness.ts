@@ -67,7 +67,9 @@ export class UserBusiness {
                 throw new CustomError(422, "Invalid password!")
             }
 
+            
             const userFromDataBase = await this.userDataBase.getUserByEmailOrNickname(input)
+            
 
             if (!userFromDataBase) {
                 throw new CustomError(404, "User not found. Confirm email or nickname")
