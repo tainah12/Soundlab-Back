@@ -35,14 +35,15 @@ export class UserDataBase extends BaseDataBase {
 
     }
 
-    public async getUserByEmail(email: string): Promise<User> {
+    public async getUserByEmailOrNickname(input: string): Promise<User> {
 
         try {
 
             const result = await BaseDataBase.connection
                 .select("*")
                 .from(BaseDataBase.USER_TABLE)
-                .where({ email })
+                .where({ email: input })
+                .orWhere({nickname: input})
 
             return UserDataBase.toUserModel(result[0])
 

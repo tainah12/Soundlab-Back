@@ -42,13 +42,12 @@ export class UserController {
 
         try {
 
-            const input: UserLoginInputDTO = {
-                email: req.body.email,
-                nickname: req.body.nickname,
+            const inputLogin: UserLoginInputDTO = {
+                input: req.body.input,
                 password: req.body.password
             }
 
-            const token = await userBusiness.login(input)
+            const token = await userBusiness.login(inputLogin)
 
             res.status(201).send({ token })
 

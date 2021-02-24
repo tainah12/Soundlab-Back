@@ -53,29 +53,27 @@ export class UserBusiness {
         }
     }
 
-    async login(input: UserLoginInputDTO) {
+    async login(inputLogin: UserLoginInputDTO) {
 
         try {
 
-            if (!input.email || !input.password) {
+            const {input, password} = inputLogin
+
+            if (!input || !password) {
                 throw new CustomError(405, "Please, complete email and password!")
             }
 
-            if (!input.email.includes("@")) {
-                throw new CustomError(406, "Invalid email!")
-            }
-
-            if (input.password.length < 6) {
+            if (password.length < 6) {
                 throw new CustomError(422, "Invalid password!")
             }
 
-            const userFromDataBase = await this.userDataBase.getUserByEmail(input.email)
+            const userFromDataBase = await this.userDataBase.getUserByEmailOrNickname(input)
 
             if (!userFromDataBase) {
-                throw new CustomError(404, "User not found")
+                throw new CustomError(404, "User not found. Confirm email or nickname")
             }
 
-            const passwordIsCorrect = this.hashGenerator.compareHash(input.password, userFromDataBase.password)
+            const passwordIsCorrect = this.hashGenerator.compareHash(password, userFromDataBase.password)
 
             if (!passwordIsCorrect) {
                 throw new CustomError(401, "Invalid credentials!");
