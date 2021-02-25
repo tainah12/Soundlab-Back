@@ -3,7 +3,7 @@ import BaseDataBase from "../data/BaseDataBase";
 export class MySqlSetup extends BaseDataBase {
 
     static createTables = async () => {
-        
+
         try {
             await BaseDataBase.connection.raw(`
             CREATE TABLE IF NOT EXISTS ${BaseDataBase.USER_TABLE} (
@@ -30,16 +30,17 @@ export class MySqlSetup extends BaseDataBase {
                 date DATE DEFAULT (CURDATE()),
                 file VARCHAR(255) NOT NULL,
                 album VARCHAR(60) NOT NULL,
-                FOREIGN KEY(author) REFERENCES ${BaseDataBase.USER_TABLE}(id)
+                user_id VARCHAR(255) NOT NULL,
+                FOREIGN KEY(user_id) REFERENCES ${BaseDataBase.USER_TABLE}(id)
               );
             `)
             await BaseDataBase.connection.raw(`
             CREATE TABLE IF NOT EXISTS ${BaseDataBase.GENRE_MUSIC_TABLE} (
                 id VARCHAR(255) PRIMARY KEY,
-                genre VARCHAR(255) NOT NULL,
-                music VARCHAR(255) NOT NULL UNIQUE,
-                FOREIGN KEY(genre) REFERENCES ${BaseDataBase.GENRES_TABLE}(id),
-                FOREIGN KEY(music) REFERENCES ${BaseDataBase.MUSICS_TABLE}(id)
+                genre_id VARCHAR(255) NOT NULL,
+                music_id VARCHAR(255) NOT NULL,
+                FOREIGN KEY(genre_id) REFERENCES ${BaseDataBase.GENRES_TABLE}(id),
+                FOREIGN KEY(music_id) REFERENCES ${BaseDataBase.MUSICS_TABLE}(id)
             );
             `)
 

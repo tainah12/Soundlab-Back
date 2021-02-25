@@ -8,7 +8,7 @@ export default class BaseDataBase {
 
     protected static USER_TABLE = "soundlab_users"
     protected static GENRES_TABLE = "soundlab_genres"
-    protected static MUSICS_TABLE = "soundlab_musics"
+    protected static MUSICS_TABLE = "soundlab_music"
     protected static GENRE_MUSIC_TABLE = "soundlab_genre_music"
 
     protected static connection: Knex = knex ({

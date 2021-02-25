@@ -1,7 +1,9 @@
 import { Music } from "../business/entities/Music";
 import BaseDataBase from "./BaseDataBase";
+import { UserDataBase } from "./UserDataBase";
 
 export class MusicDataBase extends BaseDataBase {
+
 
     private static toMusicModel(musicModel: any) {
         return musicModel && new Music(
@@ -10,7 +12,8 @@ export class MusicDataBase extends BaseDataBase {
             musicModel.author,
             musicModel.date,
             musicModel.file,
-            musicModel.album
+            musicModel.album,
+            musicModel.user_id
         )
     }
 
@@ -25,7 +28,8 @@ export class MusicDataBase extends BaseDataBase {
                     author: music.author,
                     date: music.date.toISOString().slice(0,10),
                     file: music.file,
-                    album: music.album
+                    album: music.album,
+                    user_id: music.userId
                 })
                 .into(BaseDataBase.MUSICS_TABLE)
 
