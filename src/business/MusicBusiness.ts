@@ -20,7 +20,7 @@ export class MusicBusiness {
         try {
 
             
-            const { title, author, file, album } = inputMusic
+            const { title, author, file, album, genres } = inputMusic
             
             if (!inputMusic) {
                 throw new CustomError(422, "Please, complete all fields")
@@ -38,7 +38,8 @@ export class MusicBusiness {
 
             const id: string = this.idGenerator.generate()
 
-            const date: Date = new Date()           
+            const date: Date = new Date()   
+            
 
             await this.musicDataBase.createMusic(
                 new Music(
@@ -48,7 +49,8 @@ export class MusicBusiness {
                     date,
                     file,
                     album,
-                    userData.id
+                    userData.id,
+                    genres
                 )
             )
 

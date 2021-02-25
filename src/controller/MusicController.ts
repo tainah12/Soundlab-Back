@@ -24,7 +24,8 @@ export class MusicController {
                 title: req.body.title,
                 author: req.body.author,
                 file: req.body.file,
-                album: req.body.album
+                album: req.body.album,
+                genres: req.body.genres
             }
 
             await musicBusiness.createMusic(input, token)
@@ -33,6 +34,18 @@ export class MusicController {
 
         } catch (error) {
             res.status(error.statusCode || 400).send({ error: error.message })
+        }
+
+    }
+
+    public getMusic = async (req: Request, res: Response): Promise<any> => {
+
+        try {
+
+            res.status(200).send({message: "Your musics"})
+
+        } catch(error) {
+            res.status(error.statusCode || 400).send({error: error.message})
         }
 
     }

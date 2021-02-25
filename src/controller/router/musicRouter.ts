@@ -6,4 +6,5 @@ export const musicRouter = express.Router()
 const musicController = new MusicController()
 
 musicRouter.post("/", musicController.createMusic)
+musicRouter.get("/", musicController.getMusic)
 
