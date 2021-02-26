@@ -38,11 +38,37 @@ export class MusicController {
 
     }
 
-    public getMusic = async (req: Request, res: Response): Promise<any> => {
+    public getAllMusicsUser = async (req: Request, res: Response): Promise<any> => {
 
         try {
 
-            res.status(200).send({message: "Your musics"})
+            const token: string = req.headers.authorization as string
+
+            const result = await musicBusiness.getAllUserMusics(token)
+
+
+            res.status(200).send({message: result})
+
+        } catch(error) {
+            res.status(error.statusCode || 400).send({error: error.message})
+        }
+
+    }
+
+    public getMusicId = async (req: Request, res: Response): Promise<any> => {
+
+        try {
+
+            const token: string = req.headers.authorization as string
+
+            const idMusic: string = req.params.id as string
+
+
+
+            const result = await musicBusiness.getIdMusic(token, idMusic)
+
+
+            res.status(200).send({message: result})
 
         } catch(error) {
             res.status(error.statusCode || 400).send({error: error.message})

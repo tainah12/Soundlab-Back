@@ -5,18 +5,18 @@ import { UserDataBase } from "./UserDataBase";
 export class MusicDataBase extends BaseDataBase {
 
 
-    // private static toMusicModel(musicModel: any) {
-    //     return musicModel && new Music(
-    //         musicModel.id,
-    //         musicModel.title,
-    //         musicModel.author,
-    //         musicModel.date,
-    //         musicModel.file,
-    //         musicModel.album,
-    //         musicModel.user_id,
-    //         musicModel.genre
-    //     )
-    // }
+    private static toMusicModel(musicModel: any) {
+        return musicModel && new Music(
+            musicModel.id,
+            musicModel.title,
+            musicModel.author,
+            musicModel.date,
+            musicModel.file,
+            musicModel.album,
+            musicModel.user_id,
+            musicModel.genre
+        )
+    }
 
     public async createMusic(music: Music): Promise<void> {
 
@@ -50,20 +50,52 @@ export class MusicDataBase extends BaseDataBase {
 
     }
 
-    public async getMusicByUser(userId: string): Promise<void> {
+    public async getMusicByUser(userId: string): Promise<Music[]> {
 
         try {
 
-            await BaseDataBase.connection
+            const result = await BaseDataBase.connection
                 .select("*")
                 .from(BaseDataBase.MUSICS_TABLE)
                 .where({user_id: userId}) 
+
+                const musics: Music[] = []
+                for(let music of result) {
+                    musics.push(MusicDataBase.toMusicModel(music))
+                }
+
+                console.log(result[0])
+                return result[0]
 
         } catch (error) {
             throw new Error(error.sqlMessage || error.message)
         }
 
     }
+
+    public async getMusicById(musicId: string): Promise<Music[]> {
+
+        try {
+
+            const result = await BaseDataBase.connection
+                .select("*")
+                .from(BaseDataBase.MUSICS_TABLE)
+                .where({id: musicId}) 
+
+                const musics: Music[] = []
+                for(let music of result) {
+                    musics.push(MusicDataBase.toMusicModel(music))
+                }
+
+                console.log(result[0])
+                return result[0]
+
+        } catch (error) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+
+    }
+
 
 }
 
