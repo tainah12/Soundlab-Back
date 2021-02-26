@@ -72,7 +72,26 @@ export class MusicBusiness {
                 throw new CustomError(401, "Unauthorized. Verify token")
             }
 
+
             const result = await this.musicDataBase.getMusicByUser(userData.id)
+
+            const musics = result.map((music) => {
+
+                return {
+                    id: music.id,
+                    title: music.title,
+                    author: music.author,
+                    date: music.date,
+                    file: music.file,
+                    album: music.album,
+                    userId: music.userId,
+                    genres: genres[]
+                }
+
+            })
+
+            const date = dayjs(result.date).format("DD-MM-YYYY")
+
 
             return { result }
 
@@ -104,7 +123,7 @@ export class MusicBusiness {
             if (error.message === "invalid signature" || error.message === "jwt expired" || error.message === "jwt must be provided" || error.message === "jwt malformed") {
 
                 throw new CustomError(404, "Invalid token")
-                
+
             } else {
                 throw new CustomError(error.statusCode || 400, error.message)
             }
@@ -139,7 +158,7 @@ export class MusicBusiness {
             if (error.message === "invalid signature" || error.message === "jwt expired" || error.message === "jwt must be provided" || error.message === "jwt malformed") {
 
                 throw new CustomError(404, "Invalid token")
-                
+
             } else {
                 throw new CustomError(error.statusCode || 400, error.message)
             }
