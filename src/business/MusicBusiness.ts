@@ -39,9 +39,9 @@ export class MusicBusiness {
 
             const id: string = this.idGenerator.generate()
 
-            const date: Date = new Date()
+            const date = new Date()
 
-            const music: MusicOutputDTO = new Music(
+            const music: Music = new Music(
                 id,
                 title,
                 author,
