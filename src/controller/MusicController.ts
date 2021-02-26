@@ -76,4 +76,23 @@ export class MusicController {
 
     }
 
+    public getMusicTitle = async (req: Request, res: Response): Promise<any> => {
+
+        try {
+
+            const token: string = req.headers.authorization as string
+
+            const titleMusic: string = req.query.title as string
+            // const authorMusic: string = req.query.author as string
+
+            const result = await musicBusiness.getTitleMusic(token, titleMusic)
+
+            res.status(200).send({message: result})
+
+        } catch(error) {
+            res.status(error.statusCode || 400).send({error: error.message})
+        }
+
+    }
+
 }

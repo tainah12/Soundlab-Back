@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { MusicDataBase } from "../data/MusicDataBase";
 import { IdGenerator } from "../services/IdGenerator";
 import { Authenticator } from "../services/TokenGenerator";
@@ -40,7 +41,7 @@ export class MusicBusiness {
 
             const date: Date = new Date()
 
-            const music = new Music(
+            const music: MusicOutputDTO = new Music(
                 id,
                 title,
                 author,
@@ -92,6 +93,41 @@ export class MusicBusiness {
             }
 
             const result = await this.musicDataBase.getMusicById(idMusic)
+
+            if (!result) {
+                throw new CustomError(404, "Music not found")
+            }
+
+            return { result }
+
+        } catch (error) {
+            if (error.message === "invalid signature" || error.message === "jwt expired" || error.message === "jwt must be provided" || error.message === "jwt malformed") {
+
+                throw new CustomError(404, "Invalid token")
+                
+            } else {
+                throw new CustomError(error.statusCode || 400, error.message)
+            }
+
+        }
+
+    }
+
+    public async getTitleMusic(token: string, titleMusic: string) {
+
+        try {
+
+            if (!titleMusic.length) {
+                throw new CustomError(404, "Please, complete the title field!")
+            }
+
+            const userData: AuthenticationData = this.getToken.getData(token)
+
+            if (!userData) {
+                throw new CustomError(401, "Unauthorized. Verify token")
+            }
+
+            const result = await this.musicDataBase.getMusicByTitle(titleMusic)
 
             if (!result) {
                 throw new CustomError(404, "Music not found")

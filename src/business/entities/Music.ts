@@ -11,7 +11,7 @@ export interface MusicOutputDTO {
     id: string,
     title: string,
     author: string,
-    createdAt: Date,
+    date: Date,
     file: string,
     album: string,
     userId: string,

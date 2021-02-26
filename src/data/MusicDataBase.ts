@@ -27,21 +27,21 @@ export class MusicDataBase extends BaseDataBase {
                     id: music.id,
                     title: music.title,
                     author: music.author,
-                    date: music.date.toISOString().slice(0,10),
+                    date: music.date,
                     file: music.file,
                     album: music.album,
                     user_id: music.userId
                 })
                 .into(BaseDataBase.MUSICS_TABLE)
 
-                for(let genres of music.genres){
-                    await BaseDataBase.connection 
+            for (let genres of music.genres) {
+                await BaseDataBase.connection
                     .insert({
                         genre: genres,
                         music_id: music.id
                     })
                     .into(BaseDataBase.GENRE_MUSIC_TABLE)
-                }
+            }
 
 
         } catch (error) {
@@ -57,15 +57,15 @@ export class MusicDataBase extends BaseDataBase {
             const result = await BaseDataBase.connection
                 .select("*")
                 .from(BaseDataBase.MUSICS_TABLE)
-                .where({user_id: userId}) 
+                .where({ user_id: userId })
 
-                const musics: Music[] = []
-                for(let music of result) {
-                    musics.push(MusicDataBase.toMusicModel(music))
-                }
+            const musics: Music[] = []
+            for (let music of result) {
+                musics.push(MusicDataBase.toMusicModel(music))
+            }
 
-                console.log(result[0])
-                return result[0]
+            console.log(result[0])
+            return result[0]
 
         } catch (error) {
             throw new Error(error.sqlMessage || error.message)
@@ -80,15 +80,15 @@ export class MusicDataBase extends BaseDataBase {
             const result = await BaseDataBase.connection
                 .select("*")
                 .from(BaseDataBase.MUSICS_TABLE)
-                .where({id: musicId}) 
+                .where({ id: musicId })
 
-                const musics: Music[] = []
-                for(let music of result) {
-                    musics.push(MusicDataBase.toMusicModel(music))
-                }
+            const musics: Music[] = []
+            for (let music of result) {
+                musics.push(MusicDataBase.toMusicModel(music))
+            }
 
-                console.log(result[0])
-                return result[0]
+            console.log(result[0])
+            return result[0]
 
         } catch (error) {
             throw new Error(error.sqlMessage || error.message)
@@ -96,6 +96,55 @@ export class MusicDataBase extends BaseDataBase {
 
     }
 
+    public async getMusicByTitle(title: string): Promise<any> {
+
+        try {
+
+            const result = await BaseDataBase.connection.raw(`
+                    SELECT * FROM ${BaseDataBase.MUSICS_TABLE}
+                    WHERE title LIKE "%${title}%"
+                `)
+                // .select("*")
+                // .from(BaseDataBase.MUSICS_TABLE)
+                // .where({ title })
+
+            // const musicsTitle: Music[] = []
+
+            // for (let musicTitle of result) {
+            //     musicsTitle.push(MusicDataBase.toMusicModel(musicTitle))
+            // }
+
+            console.log("musicsTitle", result[0][0])
+            return MusicDataBase.toMusicModel(result[0][0])
+
+        } catch (error) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+
+    }
+
+    public async getMusicByAuthor(author: string): Promise<Music[]> {
+
+        try {
+
+            const result = await BaseDataBase.connection
+                .select("*")
+                .from(BaseDataBase.MUSICS_TABLE)
+                .where({ author })
+
+            const musicsAuthor: Music[] = []
+            for (let musicAuthor of result) {
+                musicsAuthor.push(MusicDataBase.toMusicModel(musicAuthor))
+            }
+
+            console.log(result[0])
+            return result[0]
+
+        } catch (error) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+
+    }
 
 }
 
