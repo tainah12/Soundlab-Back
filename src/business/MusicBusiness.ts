@@ -39,20 +39,21 @@ export class MusicBusiness {
             const id: string = this.idGenerator.generate()
 
             const date: Date = new Date()   
-            
-
-            await this.musicDataBase.createMusic(
-                new Music(
-                    id,
-                    title,
-                    author,
-                    date,
-                    file,
-                    album,
-                    userData.id,
-                    genres
-                )
+             
+            const music = new Music(
+                id,
+                title,
+                author,
+                date,
+                file,
+                album,
+                userData.id,
+                genres
             )
+
+            await this.musicDataBase.createMusic(music)
+
+            return music
 
         } catch (error) {
             throw new CustomError(error.statusCode || 400, error.message)

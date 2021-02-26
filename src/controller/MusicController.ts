@@ -28,9 +28,9 @@ export class MusicController {
                 genres: req.body.genres
             }
 
-            await musicBusiness.createMusic(input, token)
+            const music = await musicBusiness.createMusic(input, token)
 
-            res.status(200).send("created music!")
+            res.status(200).send({message: "created music!", music})
 
         } catch (error) {
             res.status(error.statusCode || 400).send({ error: error.message })

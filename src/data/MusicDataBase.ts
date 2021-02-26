@@ -37,7 +37,7 @@ export class MusicDataBase extends BaseDataBase {
                 for(let genres of music.genres){
                     await BaseDataBase.connection 
                     .insert({
-                        id: genres,
+                        genre: genres,
                         music_id: music.id
                     })
                     .into(BaseDataBase.GENRE_MUSIC_TABLE)
