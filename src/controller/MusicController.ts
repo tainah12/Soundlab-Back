@@ -80,12 +80,13 @@ export class MusicController {
 
         try {
 
+            const title: string = req.query.title as string
+            // const authorMusic: string = req.query.author as string
+            
             const token: string = req.headers.authorization as string
 
-            const titleMusic: string = req.query.title as string
-            // const authorMusic: string = req.query.author as string
 
-            const result = await musicBusiness.getTitleMusic(token, titleMusic)
+            const result = await musicBusiness.getTitleMusic(token, title)
 
             res.status(200).send({message: result})
 

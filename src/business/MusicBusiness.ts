@@ -122,11 +122,11 @@ export class MusicBusiness {
 
     }
 
-    public async getTitleMusic(token: string, titleMusic: string) {
+    public async getTitleMusic(token: string, title: string):Promise<Music[]> {
 
         try {
 
-            if (!titleMusic.length) {
+            if (!title.length) {
                 throw new CustomError(404, "Please, complete the title field!")
             }
 
@@ -136,13 +136,13 @@ export class MusicBusiness {
                 throw new CustomError(401, "Unauthorized. Verify token")
             }
 
-            const result = await this.musicDataBase.getMusicByTitle(titleMusic)
+            const result: Music[] = await this.musicDataBase.getMusicByTitle(title)
 
             if (!result) {
                 throw new CustomError(404, "Music not found")
             }
 
-            return { result }
+            return result
 
         } catch (error) {
             

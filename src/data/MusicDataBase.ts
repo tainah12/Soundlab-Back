@@ -1,4 +1,4 @@
-import { Music } from "../business/entities/Music";
+import { category, genres, Music } from "../business/entities/Music";
 import BaseDataBase from "./BaseDataBase";
 
 export class MusicDataBase extends BaseDataBase {
@@ -58,34 +58,38 @@ export class MusicDataBase extends BaseDataBase {
                 .from(BaseDataBase.MUSICS_TABLE)
                 .where({ user_id: userId })
 
-            const resultGenres = await BaseDataBase.connection.raw(`
-                SELECT genre_id, music_id FROM ${BaseDataBase.MUSICS_TABLE}
-                JOIN ${BaseDataBase.GENRES_MUSICS_TABLE}
-                ON ${BaseDataBase.MUSICS_TABLE}.id = ${BaseDataBase.GENRES_MUSICS_TABLE}.music_id 
-                WHERE ${BaseDataBase.MUSICS_TABLE}.user_id = "${userId}"            
-            `)
+            const musics: Music[] = [];
 
-            for (let i = 0; i < result.length; i++) {
+            for (let music of result) {
 
-                result[i].resultGenres = resultGenres[0].filter((genre: any) => {
-                    return result[i].id === genre.music_id
-                })
+                const categories: category[] = []; 
 
+                const resultGenres = await BaseDataBase.connection.raw(`
+                    SELECT genre_id
+                    FROM ${BaseDataBase.MUSICS_TABLE}
+                    JOIN ${BaseDataBase.GENRES_MUSICS_TABLE}
+                    ON ${BaseDataBase.MUSICS_TABLE}.id = ${BaseDataBase.GENRES_MUSICS_TABLE}.music_id 
+                    WHERE ${BaseDataBase.MUSICS_TABLE}.id = "${music.id}"            
+                `)
+
+                for (let gen of resultGenres[0]) {
+                    categories.push(gen.genre_id)
+
+                }
+
+                musics.push({
+                    id: music.id,
+                    title: music.title,
+                    author: music.author,
+                    date: music.date,
+                    file: music.file,
+                    album: music.album,
+                    userId: music.userId,
+                    genres: categories
+                });
             }
 
-            const musicResult = result.map((music: any) => {
-                const arrayFinal = []
-
-                for (let genre of music.resultGenres) {
-                    arrayFinal.push(genre.genre_id)
-                }
-
-                return {
-                    ...music,
-                    resultGenres: arrayFinal
-                }
-            })
-            return musicResult
+            return musics;
 
         } catch (error) {
             throw new Error(error.sqlMessage || error.message)
@@ -99,7 +103,7 @@ export class MusicDataBase extends BaseDataBase {
             const result = await BaseDataBase.connection
                 .select("*")
                 .from(BaseDataBase.MUSICS_TABLE)
-                .where(key, value)
+                .where(key, "like", `%${value}%`)
 
             for (let i = 0; i < result.length; i++) {
 
@@ -107,7 +111,7 @@ export class MusicDataBase extends BaseDataBase {
                         SELECT * FROM ${BaseDataBase.MUSICS_TABLE} 
                         JOIN ${BaseDataBase.GENRES_MUSICS_TABLE}
                         ON ${BaseDataBase.MUSICS_TABLE}.id = ${BaseDataBase.GENRES_MUSICS_TABLE}.music_id
-                        WHERE ${BaseDataBase.MUSICS_TABLE}.id = "${value}"   
+                        WHERE ${BaseDataBase.MUSICS_TABLE}.${key} = "${value}"   
                         `)
 
                 const genreMap = resultGenres[0].map((genre: any) => {
@@ -116,15 +120,13 @@ export class MusicDataBase extends BaseDataBase {
 
                 result[i].resultGenres = genreMap
             }
-
-            return result[0]
-
+            
+            return result
 
         } catch (error) {
             throw new Error(error.sqlMessage || error.message)
         }
     }
-
 
     public async getMusicByTitle(title: string): Promise<any> {
 
@@ -136,8 +138,8 @@ export class MusicDataBase extends BaseDataBase {
                     `)
 
 
-            console.log("musicsTitle", result[0][0])
-            return MusicDataBase.toMusicModel(result[0][0])
+            console.log("musicsTitle", result[0])
+            return result[0]
 
         } catch (error) {
             throw new Error(error.sqlMessage || error.message)

@@ -4,7 +4,7 @@ export interface MusicInputDTO {
     author: string;
     file: string;
     album: string;
-    genres: genres[]
+    genres: category[]
 }
 
 export interface MusicOutputDTO {
@@ -29,10 +29,15 @@ export class Music {
         public readonly file: string,
         public readonly album: string,
         public readonly userId: string,
-        public readonly genres: genres[]
+        public readonly genres: category[]
 
     ) { }
 
+}
+
+export type category = {
+    id: string,
+    genre: string
 }
 
 export enum genres {
