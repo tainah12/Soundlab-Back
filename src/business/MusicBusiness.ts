@@ -72,26 +72,9 @@ export class MusicBusiness {
                 throw new CustomError(401, "Unauthorized. Verify token")
             }
 
-
-            const result = await this.musicDataBase.getMusicByUser(userData.id)
-
-            const musics = result.map((music) => {
-
-                return {
-                    id: music.id,
-                    title: music.title,
-                    author: music.author,
-                    date: music.date,
-                    file: music.file,
-                    album: music.album,
-                    userId: music.userId,
-                    genres: genres[]
-                }
-
-            })
-
-            const date = dayjs(result.date).format("DD-MM-YYYY")
-
+            const userId = userData.id
+            
+            const result = await this.musicDataBase.getMusicByUser(userId)
 
             return { result }
 
@@ -101,7 +84,7 @@ export class MusicBusiness {
 
     }
 
-    public async getIdMusic(token: string, idMusic: string) {
+    public async getIdMusic(token: string, id: string) {
 
         try {
 
@@ -111,7 +94,7 @@ export class MusicBusiness {
                 throw new CustomError(401, "Unauthorized. Verify token")
             }
 
-            const result = await this.musicDataBase.getMusicById(idMusic)
+            const result = await this.musicDataBase.getMusicByProperty("id", id)
 
             if (!result) {
                 throw new CustomError(404, "Music not found")
@@ -120,7 +103,14 @@ export class MusicBusiness {
             return { result }
 
         } catch (error) {
-            if (error.message === "invalid signature" || error.message === "jwt expired" || error.message === "jwt must be provided" || error.message === "jwt malformed") {
+
+            if (
+                error.message === "invalid signature" || 
+                error.message === "jwt expired" || 
+                error.message === "jwt must be provided" || 
+                error.message === "jwt malformed"
+                
+                ) {
 
                 throw new CustomError(404, "Invalid token")
 
@@ -155,7 +145,13 @@ export class MusicBusiness {
             return { result }
 
         } catch (error) {
-            if (error.message === "invalid signature" || error.message === "jwt expired" || error.message === "jwt must be provided" || error.message === "jwt malformed") {
+            
+            if (error.message === "invalid signature" || 
+            error.message === "jwt expired" || 
+            error.message === "jwt must be provided" || 
+            error.message === "jwt malformed"
+            
+            ) {
 
                 throw new CustomError(404, "Invalid token")
 

@@ -6,7 +6,7 @@ export class MySqlSetup extends BaseDataBase {
 
         try {
             await BaseDataBase.connection.raw(`
-            CREATE TABLE IF NOT EXISTS ${BaseDataBase.USER_TABLE} (
+            CREATE TABLE IF NOT EXISTS ${BaseDataBase.USERS_TABLE} (
                 id VARCHAR(255) PRIMARY KEY,
                 name VARCHAR(255) NOT NULL,
                 email VARCHAR(255) NOT NULL UNIQUE,
@@ -14,12 +14,6 @@ export class MySqlSetup extends BaseDataBase {
                 password VARCHAR(255) NOT NULL
               );
             `)
-
-            // await BaseDataBase.connection.raw(`
-            // CREATE TABLE IF NOT EXISTS ${BaseDataBase.GENRES_TABLE} (
-            //     id ENUM ("AXÉ", "BLUES", "BOSSA NOVA", "COUNTRY", "DISCO", "ELETRONICA", "FORRO", "FUNK", "HEAVY METAL", "HIP HOP", "INDIE", "FOLK", "JAZZ", "MPB", "NEW WAVE", "POP", "PUNK", "REGGAE", "ROCK", "SAMBA", "SOFT ROCK") PRIMARY KEY
-            //   );
-            // `)
 
             await BaseDataBase.connection.raw(`
             CREATE TABLE IF NOT EXISTS ${BaseDataBase.MUSICS_TABLE} (
@@ -30,17 +24,24 @@ export class MySqlSetup extends BaseDataBase {
                 file VARCHAR(255) NOT NULL,
                 album VARCHAR(60) NOT NULL,
                 user_id VARCHAR(255) NOT NULL,
-                FOREIGN KEY(user_id) REFERENCES ${BaseDataBase.USER_TABLE}(id)
+                FOREIGN KEY(user_id) REFERENCES ${BaseDataBase.USERS_TABLE}(id)
               );
             `)
+
             await BaseDataBase.connection.raw(`
-            CREATE TABLE IF NOT EXISTS ${BaseDataBase.GENRE_MUSIC_TABLE} (
-                genre ENUM("AXÉ", "BLUES", "BOSSA NOVA", "COUNTRY", "DISCO", "ELETRONICA", "FORRO", "FUNK", "HEAVY METAL", "HIP HOP", "INDIE", "FOLK", "JAZZ", "MPB", "NEW WAVE", "POP", "PUNK", "REGGAE", "ROCK", "SAMBA", "SOFT ROCK") NOT NULL,                
-                music_id VARCHAR(255) NOT NULL,
-                FOREIGN KEY(music_id) REFERENCES ${BaseDataBase.MUSICS_TABLE}(id)
+            CREATE TABLE IF NOT EXISTS ${BaseDataBase.GENRES_TABLE} (
+                genre ENUM("AXÉ", "BLUES", "BOSSA NOVA", "COUNTRY", "DISCO", "ELETRONICA", "FORRO", "FUNK", "HEAVY METAL", "HIP HOP", "INDIE", "FOLK", "JAZZ", "MPB", "NEW WAVE", "POP", "PUNK", "REGGAE", "ROCK", "SAMBA", "SOFT ROCK") PRIMARY KEY NOT NULL
             );
             `)
-
+            await BaseDataBase.connection.raw(`
+            CREATE TABLE IF NOT EXISTS ${BaseDataBase.GENRES_MUSICS_TABLE} (
+                genre_id ENUM("AXÉ", "BLUES", "BOSSA NOVA", "COUNTRY", "DISCO", "ELETRONICA", "FORRO", "FUNK", "HEAVY METAL", "HIP HOP", "INDIE", "FOLK", "JAZZ", "MPB", "NEW WAVE", "POP", "PUNK", "REGGAE", "ROCK", "SAMBA", "SOFT ROCK") NOT NULL,
+                music_id VARCHAR(255) NOT NULL,
+                FOREIGN KEY(genre_id) REFERENCES ${BaseDataBase.GENRES_TABLE}(genre),
+                FOREIGN KEY(music_id) REFERENCES ${BaseDataBase.MUSICS_TABLE}(id)
+                
+            )
+                `)
             console.log("MySql setup completed!")
 
 

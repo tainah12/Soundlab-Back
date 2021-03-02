@@ -27,7 +27,7 @@ export class UserDataBase extends BaseDataBase {
                     password: user.password
                 })
 
-                .into(BaseDataBase.USER_TABLE)
+                .into(BaseDataBase.USERS_TABLE)
 
         } catch (error) {
             throw new CustomError(500, "An unexpected error ocurred to create a new user. Try a new user");
@@ -41,7 +41,7 @@ export class UserDataBase extends BaseDataBase {
 
             const result = await BaseDataBase.connection
                 .select("*")
-                .from(BaseDataBase.USER_TABLE)
+                .from(BaseDataBase.USERS_TABLE)
                 .where({ email: input })
                 .orWhere({nickname: input})
 
