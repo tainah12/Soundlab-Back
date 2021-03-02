@@ -1,6 +1,5 @@
-import { genres, Music } from "../business/entities/Music";
+import {  Music } from "../business/entities/Music";
 import BaseDataBase from "./BaseDataBase";
-import { UserDataBase } from "./UserDataBase";
 
 export class MusicDataBase extends BaseDataBase {
 
@@ -135,15 +134,7 @@ export class MusicDataBase extends BaseDataBase {
                     SELECT * FROM ${BaseDataBase.MUSICS_TABLE}
                     WHERE title LIKE "%${title}%"
                     `)
-            // .select("*")
-            // .from(BaseDataBase.MUSICS_TABLE)
-            // .where({ title })
 
-            // const musicsTitle: Music[] = []
-
-            // for (let musicTitle of result) {
-            //     musicsTitle.push(MusicDataBase.toMusicModel(musicTitle))
-            // }
 
             console.log("musicsTitle", result[0][0])
             return MusicDataBase.toMusicModel(result[0][0])
