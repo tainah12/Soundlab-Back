@@ -1,4 +1,4 @@
-import {  Music } from "../business/entities/Music";
+import { Music } from "../business/entities/Music";
 import BaseDataBase from "./BaseDataBase";
 
 export class MusicDataBase extends BaseDataBase {
