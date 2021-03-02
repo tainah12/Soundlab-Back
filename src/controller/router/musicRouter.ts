@@ -1,8 +1,12 @@
 import express from "express";
+import { MusicController } from "../MusicController";
 
 export const musicRouter = express.Router()
 
-const musicController = new musicController()
+const musicController = new MusicController()
 
-musicRouter.post("/", musicController.createMusic)
+musicRouter.post("/create", musicController.createMusic)
+musicRouter.get("/", musicController.getAllMusicsUser)
+musicRouter.get("/:id", musicController.getMusicId)
+musicRouter.get("/title", musicController.getMusicTitle)
 

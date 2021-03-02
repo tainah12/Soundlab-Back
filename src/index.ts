@@ -3,6 +3,7 @@ import cors from 'cors'
 // ------ Server ------------------
 import { AddressInfo } from "net";
 import { userRouter } from './controller/router/userRouter';
+import { musicRouter } from './controller/router/musicRouter';
 
 const app: Express = express();
 
