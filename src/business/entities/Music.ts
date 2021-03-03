@@ -13,8 +13,7 @@ export interface MusicOutputDTO {
     author: string,
     date: string,
     file: string,
-    album: string,
-    userId: string,
+    album: string,    
     genres: genres[]
 };
 

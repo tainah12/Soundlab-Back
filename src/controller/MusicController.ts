@@ -63,12 +63,9 @@ export class MusicController {
 
             const idMusic: string = req.params.id as string
 
-
-
             const result = await musicBusiness.getIdMusic(token, idMusic)
 
-
-            res.status(200).send({message: result})
+            res.status(200).send({message: "Selected music :", result})
 
         } catch(error) {
             res.status(error.statusCode || 400).send({error: error.message})
@@ -76,19 +73,21 @@ export class MusicController {
 
     }
 
-    public getMusicTitle = async (req: Request, res: Response): Promise<any> => {
+    public getMusicByAuthorOrTitle = async (req: Request, res: Response): Promise<any> => {
 
         try {
-
-            const title: string = req.query.title as string
-            // const authorMusic: string = req.query.author as string
             
             const token: string = req.headers.authorization as string
 
+            const title = req.query.title as string
 
-            const result = await musicBusiness.getTitleMusic(token, title)
+            const author = req.query.author as string
 
-            res.status(200).send({message: result})
+            const album = req.query.album as string            
+
+            const result = await musicBusiness.getMusicByAuthorOrTitle(token, title, author, album)
+
+            res.status(200).send({ message: "Selected music", result })
 
         } catch(error) {
             res.status(error.statusCode || 400).send({error: error.message})
