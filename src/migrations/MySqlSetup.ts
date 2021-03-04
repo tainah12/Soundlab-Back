@@ -51,7 +51,7 @@ export class MySqlSetup extends BaseDataBase {
                 user_id VARCHAR(255) NOT NULL,
                 image VARCHAR(255) NULL,   
                 FOREIGN KEY(user_id) REFERENCES ${BaseDataBase.USERS_TABLE}(id) ON DELETE CASCADE                
-           
+        
             )            
             `)
 
@@ -64,10 +64,7 @@ export class MySqlSetup extends BaseDataBase {
              )            
             `)
 
-
-
             console.log("MySql setup completed!")
-
 
         } catch (error) {
             console.log(error)

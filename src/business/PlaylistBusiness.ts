@@ -74,9 +74,6 @@ export class PlaylistBusiness {
                 throw new CustomError(401, "Unauthorized. Verify token")
             }
             
-
-            await this.playlistDataBase.putMusicOnPlaylist(input)
-
             const musicsPlaylist: musicsPlaylist = {
                 musicId,
                 playlistId
@@ -85,6 +82,36 @@ export class PlaylistBusiness {
             await this.playlistDataBase.putMusicOnPlaylist(musicsPlaylist)
 
             return musicsPlaylist
+
+        } catch (error) {
+            throw new CustomError(error.statusCode || 400, error.message)
+        }
+    }
+
+    public async getAllPlaylists(token: string) {
+
+        try {
+
+            const userData: AuthenticationData = this.getToken.getData(token)
+
+            if (!userData) {
+                throw new CustomError(401, "Unauthorized. Verify token")
+            }            
+
+            const userId = userData.id
+
+            const result = await this.playlistDataBase.getAllPlaylists(userId)
+
+            const resultFinal =  result.map((details) => {
+                return {
+                    id: details.id,
+                    title: details.title,
+                    subtitle: details.subtitle,
+                    image: details.image
+                }
+            })
+
+            return resultFinal 
 
         } catch (error) {
             throw new CustomError(error.statusCode || 400, error.message)

@@ -31,11 +31,26 @@ export class PlaylistDataBase extends BaseDataBase {
 
         try {
             await BaseDataBase.connection
-                .insert({                  
+                .insert({
                     playlist_id: musics.playlistId,
                     music_id: musics.musicId
                 })
                 .into(BaseDataBase.PLAYLISTS_MUSICS_TABLE)
+
+        } catch (error) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+    }
+
+    public async getAllPlaylists(userId: string): Promise<Playlist[]> {
+
+        try {
+            const result = await BaseDataBase.connection
+                .select("*")
+                .from(BaseDataBase.PLAYLISTS_TABLE)
+                .where({ user_id: userId })
+
+            return result
 
         } catch (error) {
             throw new Error(error.sqlMessage || error.message)

@@ -3,8 +3,9 @@ import { PlaylistController } from "../PlaylistController";
 
 export const playlistRouter = express.Router()
 
-const paylistController = new PlaylistController()
+const playlistController = new PlaylistController()
 
-playlistRouter.post("/create", paylistController.createPlaylist)
-playlistRouter.put("/insert", paylistController.putMusicOnPlaylist)
+playlistRouter.post("/create", playlistController.createPlaylist)
+playlistRouter.put("/insert", playlistController.putMusicOnPlaylist)
+playlistRouter.get("/", playlistController.getAllPlaylist)
 

@@ -57,4 +57,20 @@ export class PlaylistController {
         }
 
     }
+
+    public getAllPlaylist = async (req: Request, res: Response): Promise<any> => {
+
+        try {
+
+            const token: string = req.headers.authorization as string
+
+            const playlist = await playlistBusiness.getAllPlaylists(token)
+
+            res.status(200).send({ message: "All playlists", playlist })
+
+        } catch (error) {
+            res.status(error.statusCode || 400).send({ error: error.message })
+        }
+
+    }
 }
