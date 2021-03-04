@@ -1,5 +1,9 @@
+import { Music } from "../business/entities/Music"
 import { Playlist } from "../business/entities/Playlist"
 import BaseDataBase from "./BaseDataBase"
+import { GenreDatabase } from "./GenreDataBase"
+
+const getGenre = new GenreDatabase()
 
 export class PlaylistDataBase extends BaseDataBase {
 
@@ -22,4 +26,23 @@ export class PlaylistDataBase extends BaseDataBase {
             throw new Error(error.sqlMessage || error.message)
         }
     }
+
+    public async getMusicById(id: string): Promise<Music[]> {
+
+        try {
+            const result = await BaseDataBase.connection
+                .select("*")
+                .from(BaseDataBase.MUSICS_TABLE)
+                .where({ id })
+
+            const resultFinal = getGenre.getGenre(result)
+
+            return resultFinal
+
+        } catch (error) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+    }
+
 }
+
