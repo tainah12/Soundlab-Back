@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { MusicInputDTO } from "../business/entities/Music";
+import { PlaylistInputDTO } from "../business/entities/Playlist";
 import { MusicBusiness } from "../business/MusicBusiness";
 import { MusicDataBase } from "../data/MusicDataBase";
 import { IdGenerator } from "../services/IdGenerator";
@@ -112,5 +113,7 @@ export class MusicController {
         }
 
     }
+
+ 
 
 }

@@ -24,7 +24,7 @@ export class MySqlSetup extends BaseDataBase {
                 file VARCHAR(255) NOT NULL,
                 album VARCHAR(60) NOT NULL,
                 user_id VARCHAR(255) NOT NULL,
-                FOREIGN KEY(user_id) REFERENCES ${BaseDataBase.USERS_TABLE}(id)
+                FOREIGN KEY(user_id) REFERENCES ${BaseDataBase.USERS_TABLE}(id) ON DELETE CASCADE
               );
             `)
 
@@ -37,7 +37,7 @@ export class MySqlSetup extends BaseDataBase {
             CREATE TABLE IF NOT EXISTS ${BaseDataBase.GENRES_MUSICS_TABLE} (
                 genre_id ENUM("AXÉ", "BLUES", "BOSSA NOVA", "COUNTRY", "DISCO", "ELETRONICA", "FORRO", "FUNK", "HEAVY METAL", "HIP HOP", "INDIE", "FOLK", "JAZZ", "MPB", "NEW WAVE", "POP", "PUNK", "REGGAE", "ROCK", "SAMBA", "SOFT ROCK") NOT NULL,
                 music_id VARCHAR(255) NOT NULL,
-                FOREIGN KEY(genre_id) REFERENCES ${BaseDataBase.GENRES_TABLE}(genre),
+                FOREIGN KEY(genre_id) REFERENCES ${BaseDataBase.GENRES_TABLE}(genre) ON DELETE CASCADE,
                 FOREIGN KEY(music_id) REFERENCES ${BaseDataBase.MUSICS_TABLE}(id) ON DELETE CASCADE                
             )
             `)
@@ -50,7 +50,7 @@ export class MySqlSetup extends BaseDataBase {
                 date DATE DEFAULT (CURDATE()),
                 user_id VARCHAR(255) NOT NULL,
                 image VARCHAR(255) NULL,   
-                FOREIGN KEY(user_id) REFERENCES ${BaseDataBase.MUSICS_TABLE}(user_id) ON DELETE CASCADE                
+                FOREIGN KEY(user_id) REFERENCES ${BaseDataBase.USERS_TABLE}(id) ON DELETE CASCADE                
            
             )            
             `)
