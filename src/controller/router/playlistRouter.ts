@@ -6,4 +6,5 @@ export const playlistRouter = express.Router()
 const paylistController = new PlaylistController()
 
 playlistRouter.post("/create", paylistController.createPlaylist)
+playlistRouter.put("/insert", paylistController.putMusicOnPlaylist)
 
