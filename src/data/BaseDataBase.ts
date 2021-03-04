@@ -10,6 +10,8 @@ export default class BaseDataBase {
     protected static GENRES_TABLE = "soundlab_genres"
     protected static MUSICS_TABLE = "soundlab_music"
     protected static GENRES_MUSICS_TABLE = "soundlab_genre_music"
+    protected static PLAYLISTS_TABLE = "soundlab_playlist"
+    protected static PLAYLISTS_MUSICS_TABLE = "soundlab_playlist_music"
 
     protected static connection: Knex = knex ({
         client: "mysql",

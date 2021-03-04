@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { MusicDataBase } from "../data/MusicDataBase";
 import { IdGenerator } from "../services/IdGenerator";
 import { Authenticator } from "../services/TokenGenerator";
@@ -107,8 +106,7 @@ export class MusicBusiness {
             }
 
             const result = await this.musicDataBase.getMusicById(id)
-            console.log(result)
-            
+
             if (!result) {
                 throw new CustomError(404, "Music not found")
             }
@@ -136,7 +134,7 @@ export class MusicBusiness {
     }
 
     public async getMusicByAuthorOrTitle(token: string, title: string, author: string, album: string) {
-       
+
         try {
 
             const userData: AuthenticationData = this.getToken.getData(token)
@@ -149,7 +147,7 @@ export class MusicBusiness {
                 throw new CustomError(406, "Please inform 'title', 'author' or 'album'")
             }
 
-            let result 
+            let result
 
             if (title) {
                 result = await this.musicDataBase.getMusicByProperty("title", title)
@@ -166,7 +164,6 @@ export class MusicBusiness {
                 throw new CustomError(404, "Title, author or album not found")
             }
 
-            
             return result
 
         } catch (error) {
@@ -188,4 +185,29 @@ export class MusicBusiness {
 
     }
 
+    public async deleteMusic(token: string, musicId: string) {
+
+        try {
+
+            const userData: AuthenticationData = this.getToken.getData(token)
+
+            if (!userData) {
+                throw new CustomError(401, "Unauthorized. Verify token")
+            }
+
+            if (!musicId) {
+                throw new CustomError(404, "Music id not found")
+            }
+
+            const result = await this.musicDataBase.deletMusic(musicId)
+
+            return { result }
+
+        } catch (error) {
+            throw new CustomError(error.statusCode || 400, error.message)
+        }
+
+    }
+
+  
 }

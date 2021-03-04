@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { MusicInputDTO } from "../business/entities/Music";
+import { PlaylistInputDTO } from "../business/entities/Playlist";
 import { MusicBusiness } from "../business/MusicBusiness";
 import { MusicDataBase } from "../data/MusicDataBase";
 import { IdGenerator } from "../services/IdGenerator";
@@ -94,5 +95,25 @@ export class MusicController {
         }
 
     }
+
+    public deleteMusicById = async (req: Request, res: Response): Promise<any> => {
+
+        try {
+            
+            const token: string = req.headers.authorization as string
+
+            const musicId = req.params.id as string
+
+            await musicBusiness.deleteMusic(token, musicId)
+
+            res.status(200).send({ message: "Delected music", musicId })
+
+        } catch(error) {
+            res.status(error.statusCode || 400).send({error: error.message})
+        }
+
+    }
+
+ 
 
 }
