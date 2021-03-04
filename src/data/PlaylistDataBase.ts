@@ -1,5 +1,5 @@
 import { Music } from "../business/entities/Music"
-import { Playlist } from "../business/entities/Playlist"
+import { musicsPlaylist, Playlist } from "../business/entities/Playlist"
 import BaseDataBase from "./BaseDataBase"
 import { GenreDatabase } from "./GenreDataBase"
 
@@ -27,17 +27,15 @@ export class PlaylistDataBase extends BaseDataBase {
         }
     }
 
-    public async getMusicById(id: string): Promise<Music[]> {
+    public async putMusicOnPlaylist(musics: musicsPlaylist): Promise<void> {
 
         try {
-            const result = await BaseDataBase.connection
-                .select("*")
-                .from(BaseDataBase.MUSICS_TABLE)
-                .where({ id })
-
-            const resultFinal = getGenre.getGenre(result)
-
-            return resultFinal
+            await BaseDataBase.connection
+                .insert({                  
+                    playlist_id: musics.playlistId,
+                    music_id: musics.musicId
+                })
+                .into(BaseDataBase.PLAYLISTS_MUSICS_TABLE)
 
         } catch (error) {
             throw new Error(error.sqlMessage || error.message)

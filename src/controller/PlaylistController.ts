@@ -27,9 +27,9 @@ export class PlaylistController {
                 image: req.body.image
             }
 
-            const music = await playlistBusiness.createPlaylist(input, token)
+            const playlist = await playlistBusiness.createPlaylist(input, token)
 
-            res.status(200).send({ message: "created playlist!", music })
+            res.status(200).send({ message: "created playlist!", playlist })
 
         } catch (error) {
             res.status(error.statusCode || 400).send({ error: error.message })
