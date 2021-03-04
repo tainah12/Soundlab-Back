@@ -117,6 +117,24 @@ export class MusicDataBase extends BaseDataBase {
             throw new Error(error.sqlMessage || error.message)
         }
     }
+
+    public async deletMusic(id: string) {
+
+        try {
+            const result = await BaseDataBase.connection
+            .delete()
+            .from(BaseDataBase.MUSICS_TABLE)
+            .where({id})
+
+            return result
+            
+        } catch (error) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+
+    }
 }
+
+
 
 
