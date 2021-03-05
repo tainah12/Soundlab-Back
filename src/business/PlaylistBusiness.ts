@@ -1,7 +1,7 @@
 import { PlaylistDataBase } from "../data/PlaylistDataBase"
 import { IdGenerator } from "../services/IdGenerator"
 import { Authenticator } from "../services/TokenGenerator"
-import { PlaylistInputDTO, Playlist, musicsPlaylist } from "./entities/Playlist"
+import { PlaylistInputDTO, Playlist, musicsPlaylist, musicsInputPlaylist } from "./entities/Playlist"
 import { AuthenticationData } from "./entities/User"
 import { CustomError } from "./error/CustomError"
 
@@ -74,7 +74,10 @@ export class PlaylistBusiness {
                 throw new CustomError(401, "Unauthorized. Verify token")
             }
             
-            const musicsPlaylist: musicsPlaylist = {
+            const id: string = this.idGenerator.generate()
+
+            const musicsPlaylist: musicsInputPlaylist = {
+                id,
                 musicId,
                 playlistId
             }
@@ -148,6 +151,29 @@ export class PlaylistBusiness {
             }            
 
             const result = await this.playlistDataBase.deletePlaylist(playlistId)
+
+            return result 
+
+        } catch (error) {
+            throw new CustomError(error.statusCode || 400, error.message)
+        }
+    }
+
+    public async deleteMusicPlaylist(token: string, id: string) {
+
+        try {
+
+            const userData: AuthenticationData = this.getToken.getData(token)
+
+            if (!userData) {
+                throw new CustomError(401, "Unauthorized. Verify token")
+            }           
+
+            if(!id){
+                throw new CustomError(406, "Please inform 'playlist_music id' to delete music")
+            }
+        
+            const result = await this.playlistDataBase.deleteMusicPlaylist(id)
 
             return result 
 
