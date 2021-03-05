@@ -136,4 +136,24 @@ export class PlaylistBusiness {
             throw new CustomError(error.statusCode || 400, error.message)
         }
     }
+
+    public async deletePlaylist(token: string, playlistId: string) {
+
+        try {
+
+            const userData: AuthenticationData = this.getToken.getData(token)
+
+            if (!userData) {
+                throw new CustomError(401, "Unauthorized. Verify token")
+            }            
+
+            const result = await this.playlistDataBase.deletePlaylist(playlistId)
+
+            return result 
+
+        } catch (error) {
+            throw new CustomError(error.statusCode || 400, error.message)
+        }
+    }
+    
 } 

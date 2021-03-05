@@ -9,4 +9,5 @@ playlistRouter.post("/create", playlistController.createPlaylist)
 playlistRouter.put("/insert", playlistController.putMusicOnPlaylist)
 playlistRouter.get("/", playlistController.getAllPlaylist)
 playlistRouter.get("/:id", playlistController.searchPlaylist)
+playlistRouter.delete("/:id", playlistController.deletePlaylist)
 

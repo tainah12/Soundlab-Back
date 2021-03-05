@@ -72,5 +72,21 @@ export class PlaylistDataBase extends BaseDataBase {
         }
     }
 
+    public async deletePlaylist(id: string): Promise<any> {
+
+        try {
+            const result = await BaseDataBase.connection
+                .del()
+                .from(BaseDataBase.PLAYLISTS_TABLE)
+                .where({ id })
+
+            return result
+
+        } catch (error) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+    }
+
+
 }
 
