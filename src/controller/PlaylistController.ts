@@ -73,4 +73,22 @@ export class PlaylistController {
         }
 
     }
+
+    public searchPlaylist = async (req: Request, res: Response): Promise<any> => {
+
+        try {
+
+            const token: string = req.headers.authorization as string
+
+            const playlistId: string = req.params.id
+
+            const playlist = await playlistBusiness.searchPlaylist(token, playlistId)
+    
+            res.status(200).send({ message: "Selected playlist", playlist })
+
+        } catch (error) {
+            res.status(error.statusCode || 400).send({ error: error.message })
+        }
+
+    }
 }

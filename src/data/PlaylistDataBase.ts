@@ -57,5 +57,20 @@ export class PlaylistDataBase extends BaseDataBase {
         }
     }
 
+    public async searchPlaylist(id: string): Promise<Playlist[]> {
+
+        try {
+            const result = await BaseDataBase.connection
+                .select("*")
+                .from(BaseDataBase.PLAYLISTS_TABLE)
+                .where({ id })
+
+            return result
+
+        } catch (error) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+    }
+
 }
 
