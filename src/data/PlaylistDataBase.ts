@@ -1,5 +1,5 @@
 import { Music } from "../business/entities/Music"
-import { Playlist } from "../business/entities/Playlist"
+import { musicsInputPlaylist, musicsPlaylist, Playlist } from "../business/entities/Playlist"
 import BaseDataBase from "./BaseDataBase"
 import { GenreDatabase } from "./GenreDataBase"
 
@@ -27,22 +27,82 @@ export class PlaylistDataBase extends BaseDataBase {
         }
     }
 
-    public async getMusicById(id: string): Promise<Music[]> {
+    public async putMusicOnPlaylist(musics: musicsInputPlaylist): Promise<void> {
 
         try {
-            const result = await BaseDataBase.connection
-                .select("*")
-                .from(BaseDataBase.MUSICS_TABLE)
-                .where({ id })
-
-            const resultFinal = getGenre.getGenre(result)
-
-            return resultFinal
+            await BaseDataBase.connection
+                .insert({
+                    id: musics.id,
+                    playlist_id: musics.playlistId,
+                    music_id: musics.musicId
+                })
+                .into(BaseDataBase.PLAYLISTS_MUSICS_TABLE)
 
         } catch (error) {
             throw new Error(error.sqlMessage || error.message)
         }
     }
+
+    public async getAllPlaylists(userId: string): Promise<Playlist[]> {
+
+        try {
+            const result = await BaseDataBase.connection
+                .select("*")
+                .from(BaseDataBase.PLAYLISTS_TABLE)
+                .where({ user_id: userId })
+
+            return result
+
+        } catch (error) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+    }
+
+    public async searchPlaylist(id: string): Promise<Playlist[]> {
+
+        try {
+            const result = await BaseDataBase.connection
+                .select("*")
+                .from(BaseDataBase.PLAYLISTS_TABLE)
+                .where({ id })
+
+            return result
+
+        } catch (error) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+    }
+
+    public async deletePlaylist(id: string): Promise<any> {
+
+        try {
+            const result = await BaseDataBase.connection
+                .del()
+                .from(BaseDataBase.PLAYLISTS_TABLE)
+                .where({ id })
+
+            return result
+
+        } catch (error) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+    }
+
+    public async deleteMusicPlaylist(id: string): Promise<any> {
+
+        try {
+            const result = await BaseDataBase.connection
+                .delete()
+                .from(BaseDataBase.PLAYLISTS_MUSICS_TABLE)
+                .where({ id })
+                
+            return result
+
+        } catch (error) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+    }
+
 
 }
 
