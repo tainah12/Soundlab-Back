@@ -35,7 +35,6 @@ export class UserController {
                 .status(error.statusCode || 400)
                 .send({ error: error.message });
         }
-
     }
 
     async login(req: Request, res: Response) {
@@ -56,8 +55,5 @@ export class UserController {
                 .status(error.statusCode || 400)
                 .send({ error: error.message });
         }
-
     }
-
-
 }

@@ -1,9 +1,5 @@
-import { Music } from "../business/entities/Music"
-import { musicsInputPlaylist, musicsPlaylist, Playlist } from "../business/entities/Playlist"
+import { musicsInputPlaylist, Playlist } from "../business/entities/Playlist"
 import BaseDataBase from "./BaseDataBase"
-import { GenreDatabase } from "./GenreDataBase"
-
-const getGenre = new GenreDatabase()
 
 export class PlaylistDataBase extends BaseDataBase {
 
@@ -102,7 +98,4 @@ export class PlaylistDataBase extends BaseDataBase {
             throw new Error(error.sqlMessage || error.message)
         }
     }
-
-
 }
-

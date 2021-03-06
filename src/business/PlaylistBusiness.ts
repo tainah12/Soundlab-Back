@@ -180,6 +180,5 @@ export class PlaylistBusiness {
         } catch (error) {
             throw new CustomError(error.statusCode || 400, error.message)
         }
-    }
-    
+    }    
 } 

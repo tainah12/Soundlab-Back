@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { MusicInputDTO } from "../business/entities/Music";
-import { PlaylistInputDTO } from "../business/entities/Playlist";
 import { MusicBusiness } from "../business/MusicBusiness";
 import { MusicDataBase } from "../data/MusicDataBase";
 import { IdGenerator } from "../services/IdGenerator";
@@ -93,7 +92,6 @@ export class MusicController {
         } catch(error) {
             res.status(error.statusCode || 400).send({error: error.message})
         }
-
     }
 
     public deleteMusicById = async (req: Request, res: Response): Promise<any> => {
@@ -113,7 +111,4 @@ export class MusicController {
         }
 
     }
-
- 
-
 }

@@ -207,7 +207,5 @@ export class MusicBusiness {
             throw new CustomError(error.statusCode || 400, error.message)
         }
 
-    }
-
-  
+    }  
 }

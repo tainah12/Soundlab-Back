@@ -11,4 +11,3 @@ playlistRouter.get("/", playlistController.getAllPlaylist)
 playlistRouter.get("/:id", playlistController.searchPlaylist)
 playlistRouter.delete("/delete/:id", playlistController.deleteMusicPlaylist)
 playlistRouter.delete("/:id", playlistController.deletePlaylist)
-

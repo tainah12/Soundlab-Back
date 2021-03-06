@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Projeto de Backend que gerencia musicas. Desenvolvido em Typescript com Express e Knex inspirado no soundcloud.",
   "main": "index.js",
+  "engines": {
+    "node": "12.19.0"
+  },
   "directories": {
     "test": "tests"
   },
@@ -10,8 +13,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "createTable": "tsc && node ./build/src/migrations/MySqlSetup.js",
     "populateTable": "tsc && node ./build/src/migrations/PopulateTable.js",
-    "dev": " ts-node-dev ./src/index.ts"
+    "dev": " ts-node-dev ./src/index.ts",
+    "start": "tsc && node ./build/src/index.js",
+    "build": "tsc"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tainah12/InstaLab-Back.git"

@@ -1,4 +1,3 @@
-
 export interface MusicInputDTO {
     title: string;
     author: string;
@@ -17,7 +16,6 @@ export interface MusicOutputDTO {
     genres: genres[]
 };
 
-
 export class Music {
     constructor(
 
@@ -31,7 +29,6 @@ export class Music {
         public readonly genres: category[]
 
     ) { }
-
 }
 
 export type category = {
