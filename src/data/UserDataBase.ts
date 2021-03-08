@@ -30,7 +30,7 @@ export class UserDataBase extends BaseDataBase {
                 .into(BaseDataBase.USERS_TABLE)
 
         } catch (error) {
-            throw new Error(error.message);
+            throw new CustomError(400, "An unexpected error ocurred to create a new user. Try a new user");
         }
 
     }
