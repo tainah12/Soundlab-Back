@@ -1,4 +1,4 @@
-# InstaLab-Back
+# SoundLab-Back
 Projeto de Backend que gerencia imagens. Desenvolvido em Typescript com Express e Knex inspirado no Instagram.
 
 ### O que há no projeto:
