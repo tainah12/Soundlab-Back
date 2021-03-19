@@ -2,6 +2,7 @@
 
 <h4> Projeto de Backend que gerencia imagens. Desenvolvido em Typescript com Express e Knex inspirado no Spotify. </h4>
 
+Link da documentção: **https://documenter.getpostman.com/view/13244138/Tz5v3vwh**
 
 ## Tecnologias utilizadas:
 
