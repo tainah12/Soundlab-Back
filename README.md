@@ -1,6 +1,6 @@
 # SoundLab-Back
 
-<h4> Projeto de Backend que gerencia imagens. Desenvolvido em Typescript com Express e Knex inspirado no Instagram. </h4>
+<h4> Projeto de Backend que gerencia imagens. Desenvolvido em Typescript com Express e Knex inspirado no Spotify. </h4>
 
 
 ## Tecnologias utilizadas:
